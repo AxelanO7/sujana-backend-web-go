@@ -24,14 +24,14 @@ func main() {
 	usrRepo := repository.NewPostgreUser(db.GormClient.DB)
 	accountRepo := repository.NewPostgreAccount(db.GormClient.DB)
 	orderRepo := repository.NewPostgreOrder(db.GormClient.DB)
-	// opnameRepo := repository.NewPostgreOpname(db.GormClient.DB)
+	reportRepo := repository.NewPostgreReport(db.GormClient.DB)
 
 	timeoutContext := fiber.Config{}.ReadTimeout
 
 	userUseCase := usecase.NewUserUseCase(usrRepo, timeoutContext)
 	accountUseCase := usecase.NewAccountUseCase(accountRepo, timeoutContext)
 	orderUseCase := usecase.NewOrderUseCase(orderRepo, timeoutContext)
-	// opnameUseCase := usecase.NewOpnameUseCase(opnameRepo, timeoutContext)
+	reportUseCase := usecase.NewReportUseCase(reportRepo, timeoutContext)
 
 	app := fiber.New(fiber.Config{})
 	app.Use(logger.New(logger.Config{
@@ -50,7 +50,7 @@ func main() {
 		delivery.NewUserHandler(app, userUseCase)
 		delivery.NewAccountHandler(app, accountUseCase)
 		delivery.NewOrderHandler(app, orderUseCase)
-		// delivery.NewOpnameHandler(app, opnameUseCase)
+		delivery.NewReportHandler(app, reportUseCase)
 		log.Fatal(app.Listen(listenPort))
 		wg.Done()
 	}()

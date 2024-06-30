@@ -44,4 +44,5 @@ type AccountUseCase interface {
 	UpdateAccount(ctx context.Context, req *Account) (*Account, error)
 	DeleteAccount(ctx context.Context, id uint) error
 	LoginAccount(ctx context.Context, req *LoginPayload) (*Account, string, error)
+	RegisterAccount(ctx context.Context, req *LoginPayload) (*Account, error)
 }

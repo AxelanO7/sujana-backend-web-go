@@ -21,6 +21,23 @@ func NewAccountUseCase(account domain.AccountRepository, t time.Duration) domain
 	}
 }
 
+func (c *accountUseCase) RegisterAccount(ctx context.Context, req *domain.LoginPayload) (*domain.Account, error) {
+	password, err := utils.HashPassword(req.Password)
+	if err != nil {
+		return nil, fmt.Errorf("unable to hash password: %v", err)
+	}
+	req.Password = password
+	res, err := c.accountRepository.CreateAccount(&domain.Account{
+		Username: req.Username,
+		Password: req.Password,
+		Role:     "user",
+	})
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
 func (c *accountUseCase) LoginAccount(ctx context.Context, req *domain.LoginPayload) (*domain.Account, string, error) {
 	res, err := c.accountRepository.RetrieveByUsername(*req.Username)
 	if err != nil {

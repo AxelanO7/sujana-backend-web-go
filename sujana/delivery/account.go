@@ -21,6 +21,7 @@ func NewAccountHandler(c *fiber.App, das domain.AccountUseCase) {
 
 	public := api.Group("/public")
 	public.Post("/login", handler.Login)
+	public.Post("/register", handler.Register)
 
 	private := api.Group("/private")
 	private.Get("/user", handler.GetAllAccount)
@@ -46,6 +47,42 @@ func (t *AccountHandler) GetAllAccount(c *fiber.Ctx) error {
 		"success": true,
 		"data":    res,
 		"message": "Successfully get all account",
+	})
+}
+
+func (t *AccountHandler) Register(c *fiber.Ctx) error {
+	req := new(domain.LoginPayload)
+	if err := c.BodyParser(req); err != nil {
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
+			"status":  500,
+			"success": false,
+			"message": "Failed to parse body",
+			"error":   err,
+		})
+	}
+	valRes, er := govalidator.ValidateStruct(req)
+	if !valRes {
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{
+			"status":  500,
+			"success": false,
+			"message": "Failed to parse body",
+			"error":   er.Error(),
+		})
+	}
+	res, err := t.AccountUC.RegisterAccount(c.Context(), req)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status":  500,
+			"success": false,
+			"message": err,
+			"error":   err.Error(),
+		})
+	}
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+		"status":  201,
+		"success": true,
+		"data":    res,
+		"message": "Successfully register account",
 	})
 }
 

@@ -34,7 +34,7 @@ func (a *posgreAccountRepository) RetrieveByUsername(accountname string) (*domai
 	var res domain.Account
 	err := a.DB.
 		Model(domain.Account{}).
-		Where("accountname = ?", accountname).
+		Where("username = ?", accountname).
 		Take(&res).Error
 	if err != nil {
 		return &domain.Account{}, err
