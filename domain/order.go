@@ -9,7 +9,7 @@ import (
 
 type Order struct {
 	ID          uint           `gorm:"primarykey;AUTO_INCREMENT" json:"id"`
-	OrderID     uint           `json:"order_id"`
+	OrderID     string         `json:"order_id"`
 	Name        string         `json:"name"`
 	Type        string         `json:"type"`
 	TotalPeople int16          `json:"total_people"`
