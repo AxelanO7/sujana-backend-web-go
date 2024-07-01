@@ -21,8 +21,6 @@ func (a *posgreOrderRepository) RetrieveOrders() ([]domain.Order, error) {
 	var res []domain.Order
 	err := a.DB.
 		Model(domain.Order{}).
-		Preload("Outlet").
-		Preload("Stock").
 		Find(&res).Error
 	if err != nil {
 		return []domain.Order{}, err
@@ -47,8 +45,6 @@ func (a *posgreOrderRepository) RetrieveOrderById(id string) (domain.Order, erro
 	err := a.DB.
 		Model(domain.Order{}).
 		Where("id = ?", id).
-		Preload("Outlet").
-		Preload("Stock").
 		First(&res).Error
 	if err != nil {
 		return domain.Order{}, err
