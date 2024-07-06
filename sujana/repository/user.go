@@ -22,7 +22,6 @@ func (a *posgreUserRepository) RetrieveAllUser() ([]domain.User, error) {
 	var res []domain.User
 	err := a.DB.
 		Model(domain.User{}).
-		Preload("User").
 		Find(&res).Error
 	if err != nil {
 		return []domain.User{}, err
@@ -36,7 +35,6 @@ func (a *posgreUserRepository) RetrieveUserByID(id uint) (*domain.User, error) {
 	err := a.DB.
 		Model(domain.User{}).
 		Where("id = ?", id).
-		Preload("User").
 		Take(&res).Error
 	if err != nil {
 		return &domain.User{}, err
