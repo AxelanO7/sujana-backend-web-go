@@ -26,6 +26,8 @@ func NewUserHandler(c *fiber.App, das domain.UserUseCase) {
 	private.Get("/account/:id", handler.GetUserByID)
 	private.Put("/account/:id", handler.UpdateUser)
 	private.Delete("/account/:id", handler.DeleteUser)
+
+	private.Get("/last-number", handler.ShowUserLastNumber)
 }
 
 func (t *UserHandler) GetAllUser(c *fiber.Ctx) error {
