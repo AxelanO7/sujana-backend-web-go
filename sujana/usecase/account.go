@@ -39,7 +39,7 @@ func (c *accountUseCase) RegisterAccount(ctx context.Context, req *domain.LoginP
 }
 
 func (c *accountUseCase) LoginAccount(ctx context.Context, req *domain.LoginPayload) (*domain.Account, string, error) {
-	res, err := c.accountRepository.RetrieveByUsername(*req.Username)
+	res, err := c.accountRepository.RetrieveByUsername(req.Username)
 	if err != nil {
 		return nil, "", err
 	}

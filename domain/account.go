@@ -10,7 +10,7 @@ import (
 
 type Account struct {
 	ID        uint           `gorm:"primarykey;AUTO_INCREMENT" json:"id"`
-	Username  *string        `json:"username"`
+	Username  string         `json:"username"`
 	Password  string         `gorm:"not null" json:"password"`
 	Role      string         `gorm:"not null" json:"role"`
 	CreatedAt *time.Time     `json:"created_at"`
@@ -24,8 +24,8 @@ type TokenClaims struct {
 }
 
 type LoginPayload struct {
-	Username *string `json:"username"`
-	Password string  `json:"password"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type AccountRepository interface {

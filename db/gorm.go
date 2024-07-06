@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"sujana-be-web-go/domain"
+	"sujana-be-web-go/utils"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -49,4 +50,16 @@ func RegisterTableToMigrate(db *gorm.DB) {
 	if e != nil {
 		log.Fatal(e)
 	}
+	SeederAccountTable()
+}
+
+func SeederAccountTable() {
+	password := "admin"
+	password, _ = utils.HashPassword(password)
+	account := domain.Account{
+		Username: "admin",
+		Password: password,
+		Role:     "admin",
+	}
+	GormClient.DB.Create(&account)
 }
